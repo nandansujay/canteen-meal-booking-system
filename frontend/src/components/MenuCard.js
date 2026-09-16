@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Minus, Plus, UtensilsCrossed } from 'lucide-react';
+import StarRating from './StarRating';
 
 export default function MenuCard({ item, onAdd }) {
   const [quantity, setQuantity] = useState(1);
@@ -32,6 +33,17 @@ export default function MenuCard({ item, onAdd }) {
           <h3 className="font-semibold text-zinc-100 leading-tight">{item.name}</h3>
           <span className="shrink-0 text-lg font-bold text-brand-400">₹{Number(item.price).toFixed(0)}</span>
         </div>
+
+        {item.review_count > 0 ? (
+          <div className="flex items-center gap-1.5">
+            <StarRating value={Math.round(item.avg_rating)} readOnly size={12} />
+            <span className="text-xs text-zinc-500">
+              {item.avg_rating} ({item.review_count})
+            </span>
+          </div>
+        ) : (
+          <span className="text-xs text-zinc-600">No reviews yet</span>
+        )}
 
         <span
           className={`text-xs font-medium ${

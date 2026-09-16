@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { ScanLine, LayoutGrid, UtensilsCrossed } from 'lucide-react';
+import { ScanLine, LayoutGrid, UtensilsCrossed, Star } from 'lucide-react';
 
 export default function Dashboard() {
   const location = useLocation();
@@ -9,6 +9,7 @@ export default function Dashboard() {
     { path: '/admin/collect', label: 'Collect Ticket', icon: ScanLine },
     { path: '/admin/counters', label: 'Counter Load', icon: LayoutGrid },
     { path: '/admin/menu', label: 'Manage Menu', icon: UtensilsCrossed },
+    { path: '/admin/reviews', label: 'Reviews', icon: Star },
   ];
 
   return (

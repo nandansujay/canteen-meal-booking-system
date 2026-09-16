@@ -325,20 +325,25 @@ DELIMITER ;
 -- VIEWS
 -- ------------------------------------------------------------
 
--- Live stock per menu item.
+-- Live stock and average rating per menu item.
 CREATE VIEW vw_menu_availability AS
 SELECT
-  id,
-  name,
-  description,
-  image_url,
-  category,
-  price,
-  capacity,
-  booked_count,
-  (capacity - booked_count) AS available_units,
-  is_available
-FROM menu_items;
+  mi.id,
+  mi.name,
+  mi.description,
+  mi.image_url,
+  mi.category,
+  mi.price,
+  mi.capacity,
+  mi.booked_count,
+  (mi.capacity - mi.booked_count) AS available_units,
+  mi.is_available,
+  ROUND(AVG(f.rating), 1) AS avg_rating,
+  COUNT(f.id) AS review_count
+FROM menu_items mi
+LEFT JOIN bookings b ON b.menu_item_id = mi.id
+LEFT JOIN feedback f ON f.booking_id = b.id
+GROUP BY mi.id, mi.name, mi.description, mi.image_url, mi.category, mi.price, mi.capacity, mi.booked_count, mi.is_available;
 
 -- One row per order, with its line items bundled as a JSON array.
 CREATE VIEW vw_order_history AS
@@ -391,3 +396,20 @@ SELECT
 FROM orders
 GROUP BY DATE(placed_at)
 ORDER BY sale_date DESC;
+
+-- Every review, with reviewer name, dish, and order — for the admin dashboard.
+CREATE VIEW vw_feedback_details AS
+SELECT
+  f.id AS feedback_id,
+  f.rating,
+  f.comment,
+  f.created_at,
+  u.name AS user_name,
+  mi.name AS item_name,
+  o.id AS order_id
+FROM feedback f
+JOIN users u ON u.id = f.user_id
+JOIN bookings b ON b.id = f.booking_id
+JOIN menu_items mi ON mi.id = b.menu_item_id
+JOIN orders o ON o.id = b.order_id
+ORDER BY f.created_at DESC;

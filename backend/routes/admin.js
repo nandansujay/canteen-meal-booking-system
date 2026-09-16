@@ -11,6 +11,7 @@ router.get('/counter-load', adminController.getCounterLoad);
 router.get('/daily-sales', adminController.getDailySales);
 router.get('/sales-summary', adminController.getSalesSummary);
 router.get('/orders', adminController.getAllOrders);
+router.get('/feedback', adminController.getAllFeedback);
 
 router.get('/menu-items', adminController.getAllMenuItems);
 router.post('/menu-items', adminController.createMenuItem);

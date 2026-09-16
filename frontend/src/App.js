@@ -15,6 +15,7 @@ import Dashboard from './pages/Admin/Dashboard';
 import CollectTicket from './pages/Admin/CollectTicket';
 import CounterLoad from './pages/Admin/CounterLoad';
 import ManageMenu from './pages/Admin/ManageMenu';
+import Reviews from './pages/Admin/Reviews';
 
 function App() {
   return (
@@ -70,6 +71,7 @@ function App() {
               <Route path="collect" element={<CollectTicket />} />
               <Route path="counters" element={<CounterLoad />} />
               <Route path="menu" element={<ManageMenu />} />
+              <Route path="reviews" element={<Reviews />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>

@@ -41,6 +41,15 @@ async function getSalesSummary(req, res, next) {
   }
 }
 
+async function getAllFeedback(req, res, next) {
+  try {
+    const feedback = await adminService.getAllFeedback();
+    res.json({ feedback });
+  } catch (err) {
+    next(err);
+  }
+}
+
 async function getAllOrders(req, res, next) {
   try {
     const orders = await adminService.getAllOrders();
@@ -96,6 +105,7 @@ module.exports = {
   getCounterLoad,
   getDailySales,
   getSalesSummary,
+  getAllFeedback,
   getAllOrders,
   getAllMenuItems,
   createMenuItem,

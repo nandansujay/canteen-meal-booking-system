@@ -35,6 +35,11 @@ async function getSalesSummary() {
   return rows[0];
 }
 
+async function getAllFeedback() {
+  const [rows] = await pool.query('SELECT * FROM vw_feedback_details');
+  return rows;
+}
+
 async function getAllOrders() {
   const [rows] = await pool.query('SELECT * FROM vw_order_history ORDER BY placed_at DESC');
   return rows.map(parseItems);
@@ -73,6 +78,7 @@ module.exports = {
   getCounterLoad,
   getDailySales,
   getSalesSummary,
+  getAllFeedback,
   getAllOrders,
   getAllMenuItems,
   createMenuItem,
