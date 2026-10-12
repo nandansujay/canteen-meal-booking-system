@@ -221,10 +221,18 @@ export default function ManageMenu() {
                   <span className="text-sm font-semibold text-zinc-300">₹{Number(item.price).toFixed(2)}</span>
                   <span
                     className={`text-xs font-medium px-2 py-0.5 rounded-full ${
-                      item.is_available ? 'bg-green-500/10 text-green-400' : 'bg-red-500/10 text-red-400'
+                      item.booked_count >= item.capacity
+                        ? 'bg-amber-500/10 text-amber-400'
+                        : item.is_available
+                          ? 'bg-green-500/10 text-green-400'
+                          : 'bg-red-500/10 text-red-400'
                     }`}
                   >
-                    {item.is_available ? 'Available' : 'Hidden'}
+                    {item.booked_count >= item.capacity
+                      ? 'Finished'
+                      : item.is_available
+                        ? 'Available'
+                        : 'Hidden'}
                   </span>
                   <button
                     onClick={() => startEdit(item)}
