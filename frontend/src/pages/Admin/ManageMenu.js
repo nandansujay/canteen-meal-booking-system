@@ -19,8 +19,12 @@ export default function ManageMenu() {
   }, []);
 
   async function loadItems() {
-    const { data } = await client.get('/admin/menu-items');
-    setItems(data.items);
+    try {
+      const { data } = await client.get('/admin/menu-items');
+      setItems(data.items);
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Failed to load menu items');
+    }
   }
 
   function updateForm(field, value) {

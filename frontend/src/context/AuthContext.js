@@ -56,6 +56,21 @@ export function AuthProvider({ children }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Keep every open tab in sync. The native 'storage' event fires in OTHER
+  // tabs (never the tab that made the change) whenever localStorage changes,
+  // so if someone logs in/out/switches accounts in one tab, every other tab
+  // picks up the new session instead of silently sending a stale token.
+  useEffect(() => {
+    function handleStorageChange(e) {
+      if (e.key === 'user' || e.key === 'token') {
+        const stored = localStorage.getItem('user');
+        setUser(stored ? JSON.parse(stored) : null);
+      }
+    }
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
   function logout() {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
